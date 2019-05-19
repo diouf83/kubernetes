@@ -1,0 +1,46 @@
+1- etape 1 :
+docker container run --detach --publish 8080:80 --name web microsoft/iis:nanoserver  // telechargement image iis:nanoserver et deploiement sur le port 8080 en mode détaché ( backgrounf)
+
+2- modifier cette version
+2.1  on l'arrete  
+docker container stop web
+
+2.2 creation index.html
+docker container cp C:\\DEV\docker\\localWebServer\\index.html web:C:\inetpub\wwwroot\index.html
+
+cp C:\\index.html web:C:\inetpub\wwwroot\index.html
+
+
+Step 2 : push to docker hub
+1. creation tag
+docker image build --tag mamaddiouf/tutopushdockerhub .
+
+2.run
+docker container run --detach --publish 8080:80 --name web  mamaddiouf/tutopushdockerhub
+
+docker container run --detach --publish 8082:80 --name web2  mamaddiouf/tutopushdockerhub
+3. push
+docker image push mamaddiouf/tutopushdockerhub si ereur docker login
+
+Step3 :Step 3: Run a Multi-Service App
+
+PS C:\DEV\docker\tutodockercompose> docker-compose up -d
+
+
+Step 5: Orchestration: Kubernetes
+
+--using docker stack integrating kubernetes
+docker stack deploy wordsmith -c docker-compose.yml
+
+-- using directly kubernetes  and depoloyement file 
+--apply
+kubectl apply -f kube-deployment.yml
+
+--delete
+kubectl delete -f kube-deployment.yml
+
+--utilities
+kubectl get svc  --get services 
+kubectl get rs  --get services status running
+kubectl get pods  --get services status running
+
